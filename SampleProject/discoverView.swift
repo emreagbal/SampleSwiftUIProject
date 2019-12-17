@@ -7,52 +7,85 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct discoverView: View {
     
-    let example = ["first", "second", "third", "first", "second", "third", "first", "second", "third", "first",]
+    @ObservedObject var discoverVM = discoverViewModel()
+    
+    var searchButton: some View {
+        Button(action: { }){
+            Image("search").imageScale(.medium)
+                .padding()
+        }
+    }
     
     var body: some View {
         NavigationView {
+            
             List {
                 
                 HStack{                       Text("Stories").font(.headline)
                     Button(action: { }){
                         Text("View Archive").font(.headline)
-                    }.padding(.leading, 175)
+                    }
+                    .padding(.trailing)
+                     .foregroundColor(.purple)
+                        .buttonStyle(PlainButtonStyle())
                 }
                 
                 ScrollView(.horizontal , showsIndicators: false) {
-                    VStack(alignment: .leading){
                         HStack{
-                        ForEach(example, id: \.self){ex in
-                            Text(ex)
+                            ForEach(discoverVM.discoverJSON){post in
+                                showStory(post: post)
                         }
+                        }
+                    
+                }.frame(height: 100)
+                 .padding(.bottom)
+                
+                    VStack(alignment: .leading){
+                        ForEach(discoverVM.discoverJSON){post in
+                            showPost(post: post)
                         }
                     }
-                    }.frame(height: 150)
-                    .padding(.top , -61)
-                
-                    
-                    
+            }.navigationBarTitle(Text("Discover"))
             
-            
-                ForEach(example, id: \.self){ex in
-                    post()
-                }
-            }.navigationBarTitle(Text("Movies"))
-            
-            
-        }.padding(.top ,-12)
+            }
    }
 }
 
-struct post: View {
+//MARK: Story View Struct
+struct showStory: View {
+    var post: discoverDataType
+    var body: some View {
+        VStack {
+            AnimatedImage(url: URL(string: post.userImageUrl))
+                .resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+                .clipShape(Circle())
+                .frame(width: 70, height: 70)
+                .clipped()
+                .aspectRatio(contentMode: .fit)
+                .imageScale(.large)
+            Text("\(post.userFullName)")
+        }
+    }
+}
+
+//MARK: Post View Struct
+struct showPost: View {
+    var post: discoverDataType
     var body: some View {
         VStack(alignment: .leading) {
-            Text("User Name").font(.headline)
-            Text("Hala seviyotum ne yapsanda ne etsende geçmez biliyorum azalsandaaaa çoğalsandaaa bende üzdüm sende üzdün boş verelimmi bende küstüm sende küstün vazgeçelim mi?")
-            Image("emre").resizable()
+            
+            Text("\(post.userFullName)").font(.headline)
+            Text("\(post.createdAt)").font(.caption)
+            Text("\(post.postMessage)").font(.body)
+            AnimatedImage(url: URL(string: post.postImage)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+                .listRowInsets(EdgeInsets())
+                .frame(width: 399, height: 455, alignment: .leading)
+            .aspectRatio(contentMode: .fill)
+            
         }.padding(.leading, -2)
         
     }
