@@ -29,13 +29,24 @@ struct discoverView: View {
                     Button(action: { }){
                         Text("View Archive").font(.headline)
                     }
-                    .padding(.trailing)
+                    .padding(.leading, 185)
                      .foregroundColor(.purple)
                         .buttonStyle(PlainButtonStyle())
                 }
                 
+                VStack {
                 ScrollView(.horizontal , showsIndicators: false) {
-                        HStack{
+                    HStack{
+
+                        VStack{
+                                Image("group2").resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+                                .clipShape(Circle())
+                                .frame(width: 70, height: 70)
+                                .clipped()
+                                .aspectRatio(contentMode: .fit)
+                                .imageScale(.small)
+                                Text("You")
+                        }.padding(.leading)
                             ForEach(discoverVM.discoverJSON){post in
                                 showStory(post: post)
                         }
@@ -43,13 +54,14 @@ struct discoverView: View {
                     
                 }.frame(height: 100)
                  .padding(.bottom)
+                }
                 
-                    VStack(alignment: .leading){
-                        ForEach(discoverVM.discoverJSON){post in
-                            showPost(post: post)
-                        }
+                VStack(alignment: .leading){
+                    ForEach(discoverVM.discoverJSON){post in
+                        showPost(post: post)
                     }
-            }.navigationBarTitle(Text("Discover"))
+                }
+            }.navigationBarTitle(Text("Discover")).navigationBarItems(trailing: searchButton)
             
             }
    }
@@ -68,7 +80,7 @@ struct showStory: View {
                 .aspectRatio(contentMode: .fit)
                 .imageScale(.large)
             Text("\(post.userFullName)")
-        }
+        }.padding(.leading)
     }
 }
 
@@ -77,15 +89,34 @@ struct showPost: View {
     var post: discoverDataType
     var body: some View {
         VStack(alignment: .leading) {
+            HStack {
+                AnimatedImage(url: URL(string: post.userImageUrl)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+                    .listRowInsets(EdgeInsets())
+                    .clipShape(Circle())
+                    .frame(width: 70, height: 70, alignment: .leading)
+                    .aspectRatio(contentMode: .fill)
+                    
+                VStack{
+                    Text("\(post.userFullName)").font(.headline).lineLimit(1)
+                    Text("\(post.createdAt)").font(.caption).padding(.leading, -53)
+                }
+                Image("more").padding(.leading, 160)
+                
+            }
             
-            Text("\(post.userFullName)").font(.headline)
-            Text("\(post.createdAt)").font(.caption)
+           
             Text("\(post.postMessage)").font(.body)
             AnimatedImage(url: URL(string: post.postImage)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
                 .listRowInsets(EdgeInsets())
                 .frame(width: 399, height: 455, alignment: .leading)
             .aspectRatio(contentMode: .fill)
-            
+            HStack{
+                Image("like")
+                Text("\(post.likeCount)")
+                Image("comment")
+                Text("\(post.commentCount)")
+                Image("share")
+            }
         }.padding(.leading, -2)
         
     }

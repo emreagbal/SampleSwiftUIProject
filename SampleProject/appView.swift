@@ -12,12 +12,14 @@ struct appView: View {
     @State var selectedTab = 0
     var body: some View {
         TabView(selection: $selectedTab){
-            discoverView()
+           
+           moviesView()
                 .tabItem {
                     Image("homeOn")
             }.tag(0)
             
-            moviesView()
+            
+             discoverView()
                 .tabItem {
                     Image("search")
             }.tag(1)

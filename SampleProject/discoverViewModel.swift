@@ -15,24 +15,27 @@ class discoverViewModel: ObservableObject {
     @Published var discoverJSON = [discoverDataType]()
     
     init() {
+        fetchDataFromServer()
+    }
+    
+    func fetchDataFromServer(){
         
         guard let url = URL(string: apiURL) else { return }
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: url) { (data, response, error) in
-            
-            do {
-                let fetch = try JSONDecoder().decode([discoverDataType].self, from: data!)
-                
-                DispatchQueue.main.async {
-                    
-                    self.discoverJSON = fetch
-                }
-            }
-            catch {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    
+               let session = URLSession(configuration: .default)
+               session.dataTask(with: url) { (data, response, error) in
+                   
+                   do {
+                       let fetch = try JSONDecoder().decode([discoverDataType].self, from: data!)
+                       
+                       DispatchQueue.main.async {
+                           
+                           self.discoverJSON = fetch
+                       }
+                   }
+                   catch {
+                       print(error.localizedDescription)
+                   }
+               }.resume()
+           
     }
-
 }
