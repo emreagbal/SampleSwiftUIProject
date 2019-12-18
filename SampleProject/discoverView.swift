@@ -24,17 +24,18 @@ struct discoverView: View {
         NavigationView {
             
             List {
+//MARK: Story View
                 
+                VStack{
                 HStack{                       Text("Stories").font(.headline)
                     Button(action: { }){
                         Text("View Archive").font(.headline)
                     }
-                    .padding(.leading, 185)
+                    .padding(.leading, 175)
                      .foregroundColor(.purple)
                         .buttonStyle(PlainButtonStyle())
                 }
                 
-                VStack {
                 ScrollView(.horizontal , showsIndicators: false) {
                     HStack{
 
@@ -50,11 +51,11 @@ struct discoverView: View {
                             ForEach(discoverVM.discoverJSON){post in
                                 showStory(post: post)
                         }
-                        }
+                    }.frame(height: 100)
                     
                 }.frame(height: 100)
-                 .padding(.bottom)
                 }
+//MARK: Post View
                 
                 VStack(alignment: .leading){
                     ForEach(discoverVM.discoverJSON){post in
@@ -67,7 +68,7 @@ struct discoverView: View {
    }
 }
 
-//MARK: Story View Struct
+//MARK: Show Story View Struct
 struct showStory: View {
     var post: discoverDataType
     var body: some View {
@@ -84,7 +85,7 @@ struct showStory: View {
     }
 }
 
-//MARK: Post View Struct
+//MARK: Show Post View Struct
 struct showPost: View {
     var post: discoverDataType
     var body: some View {
@@ -100,7 +101,7 @@ struct showPost: View {
                     Text("\(post.userFullName)").font(.headline).lineLimit(1)
                     Text("\(post.createdAt)").font(.caption).padding(.leading, -53)
                 }
-                Image("more").padding(.leading, 160)
+                Image("more").padding(.leading, 139)
                 
             }
             
@@ -108,14 +109,14 @@ struct showPost: View {
             Text("\(post.postMessage)").font(.body)
             AnimatedImage(url: URL(string: post.postImage)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
                 .listRowInsets(EdgeInsets())
-                .frame(width: 399, height: 455, alignment: .leading)
-            .aspectRatio(contentMode: .fill)
+                .frame(width: 411, height: 455, alignment: .leading)
+                .aspectRatio(contentMode: .fit).padding(.leading, -13)
             HStack{
                 Image("like")
                 Text("\(post.likeCount)")
-                Image("comment")
+                Image("comment").padding(.init(top: 0, leading: 99, bottom: 0, trailing: 0))
                 Text("\(post.commentCount)")
-                Image("share")
+                Image("share").padding(.init(top: 0, leading: 119, bottom: 0, trailing: 0))
             }
         }.padding(.leading, -2)
         

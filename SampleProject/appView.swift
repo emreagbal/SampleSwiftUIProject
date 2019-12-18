@@ -15,13 +15,22 @@ struct appView: View {
            
            moviesView()
                 .tabItem {
-                    Image("homeOn")
+                    if(selectedTab == 0){
+                        Image("homeOn")
+                    }else{
+                        Image("homeOff")
+                    }
+                    
             }.tag(0)
             
             
              discoverView()
                 .tabItem {
-                    Image("search")
+                    if(selectedTab == 1){
+                       Image("searchOn")
+                    }else{
+                       Image("search")
+                    }
             }.tag(1)
         
         }
