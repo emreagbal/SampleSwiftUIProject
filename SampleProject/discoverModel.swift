@@ -6,12 +6,10 @@
 //  Copyright © 2019 Emre Ağbal. All rights reserved.
 //
 struct discoverDataType: Identifiable, Decodable {
-    var id: Int
-    var userFullName: String
-    var userImageUrl: String
-    var createdAt   : String
-    var likeCount   : Int
-    var commentCount: Int
-    var postImage   : String
-    var postMessage : String    
+    var albumId: Int
+    var id:      Int
+    var title:        String
+    var url:          String
+    var thumbnailUrl: String
 }
+

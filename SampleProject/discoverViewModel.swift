@@ -10,7 +10,7 @@ import UIKit
 
 class discoverViewModel: ObservableObject {
     
-    var apiURL = "http://www.mocky.io/v2/5dea8bf6300000d23f2b09d0.json"
+    var apiURL = "https://jsonplaceholder.typicode.com/photos"
     
     @Published var discoverJSON = [discoverDataType]()
     
@@ -28,8 +28,10 @@ class discoverViewModel: ObservableObject {
                        let fetch = try JSONDecoder().decode([discoverDataType].self, from: data!)
                        
                        DispatchQueue.main.async {
+                        for i in 0 ... 100 {
+                            self.discoverJSON.append(fetch[i])
+                        }
                            
-                           self.discoverJSON = fetch
                        }
                    }
                    catch {

@@ -10,13 +10,26 @@ import UIKit
 
 class moviesViewModel: ObservableObject {
     
-    var apiURL = "http://www.mocky.io/v2/5dea8d843000001d442b09da.json"
+    var apiURL = "http://api.tvmaze.com/shows/"
     
   
     @Published var moviesJSON = [movieDataType]()
+    var moviesDatas = [String:AnyObject](){
+        didSet {
+            if((moviesDatas["name"]?.isEqual(to: "Not Found")) != false){
+
+            }else{
+                moviesJSON.append(movieDataType(result: moviesDatas))
+            }
+        }
+    }
     
     init() {
-        fetchDataFromServer()
+        for i in 55 ... 100{
+            apiURL = apiURL + String(i)
+            fetchDataFromServer()
+            apiURL = "http://api.tvmaze.com/shows/"
+        }
     }
     
     func fetchDataFromServer() {
@@ -26,11 +39,12 @@ class moviesViewModel: ObservableObject {
                session.dataTask(with: url) { (data, response, error) in
                    
                    do {
-                       let fetch = try JSONDecoder().decode([movieDataType].self, from: data!)
+                       let fetch = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? Dictionary<String,AnyObject>
                        
                        DispatchQueue.main.async {
                            
-                           self.moviesJSON = fetch
+                        self.moviesDatas = fetch!
+                        
                        }
                    }
                    catch {

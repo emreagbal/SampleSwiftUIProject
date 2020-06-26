@@ -73,14 +73,14 @@ struct showStory: View {
     var post: discoverDataType
     var body: some View {
         VStack {
-            AnimatedImage(url: URL(string: post.userImageUrl))
+            AnimatedImage(url: URL(string: post.thumbnailUrl))
                 .resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
                 .clipShape(Circle())
                 .frame(width: 70, height: 70)
                 .clipped()
                 .aspectRatio(contentMode: .fit)
                 .imageScale(.large)
-            Text("\(post.userFullName)")
+            Text("User")
         }.padding(.leading)
     }
 }
@@ -91,31 +91,31 @@ struct showPost: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                AnimatedImage(url: URL(string: post.userImageUrl)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+                AnimatedImage(url: URL(string: post.thumbnailUrl)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
                     .listRowInsets(EdgeInsets())
                     .clipShape(Circle())
                     .frame(width: 70, height: 70, alignment: .leading)
                     .aspectRatio(contentMode: .fill)
                     
                 VStack{
-                    Text("\(post.userFullName)").font(.headline).lineLimit(1)
-                    Text("\(post.createdAt)").font(.caption).padding(.leading, -53)
+                    Text("Lorem").font(.headline).lineLimit(1)
+                    
                 }
                 Image("more").padding(.leading, 139)
                 
             }
             
            
-            Text("\(post.postMessage)").font(.body)
-            AnimatedImage(url: URL(string: post.postImage)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
+            Text("\(post.title)").font(.body)
+            AnimatedImage(url: URL(string: post.url)).resizable(capInsets: EdgeInsets(), resizingMode: Image.ResizingMode.stretch)
                 .listRowInsets(EdgeInsets())
                 .frame(width: 411, height: 455, alignment: .leading)
                 .aspectRatio(contentMode: .fit).padding(.leading, -13)
             HStack{
                 Image("like")
-                Text("\(post.likeCount)")
+                Text("\(post.id)")
                 Image("comment").padding(.init(top: 0, leading: 99, bottom: 0, trailing: 0))
-                Text("\(post.commentCount)")
+                Text("\(post.albumId)")
                 Image("share").padding(.init(top: 0, leading: 119, bottom: 0, trailing: 0))
             }
         }.padding(.leading, -2)
